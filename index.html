@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사물함 사용 현황</title>
+  <style>
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 24px;
+      color: #1e293b;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0 0 16px 0;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    /* 상단 색상 범례 안내 */
+    .legend-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      display: inline-flex;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .color-chip {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+    }
+
+    /* 구역 묶음 레이아웃 */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+      border: 1px solid #e2e8f0;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 700;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #cbd5e1;
+    }
+
+    .section-blue .section-title { border-color: #3b82f6; color: #1d4ed8; }
+    .section-pink .section-title { border-color: #ec4899; color: #be185d; }
+
+    /* 사물함 그리드 */
+    .locker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+      gap: 10px;
+    }
+
+    .locker-box {
+      min-height: 60px;
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid transparent;
+      box-sizing: border-box;
+      transition: transform 0.1s ease;
+    }
+
+    .locker-box:hover {
+      transform: translateY(-2px);
+    }
+
+    .num {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .label {
+      font-size: 12px;
+      margin-top: 4px;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* 지정 색상 테마 규격 */
+    /* 1. 사용 안 함 (파란색) */
+    .status-empty {
+      background-color: #ebf8ff;
+      border-color: #90cdf4;
+      color: #2b6cb0;
+    }
+
+    /* 2. 사용 중 (초록색) */
+    .status-occupied {
+      background-color: #f0fdf4;
+      border-color: #86efac;
+      color: #15803d;
+    }
+
+    /* 3. 복지 / 동아리 (노란색) */
+    .status-welfare {
+      background-color: #fefce8;
+      border-color: #fde047;
+      color: #854d0e;
+    }
+
+    /* 4. 사용 불가 (빨간색) */
+    .status-disabled {
+      background-color: #fef2f2;
+      border-color: #fca5a5;
+      color: #b91c1c;
+    }
+
+    .loading-text {
+      text-align: center;
+      color: #64748b;
+      padding: 40px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>사물함 사용 현황</h1>
+    
+    <div class="legend-container">
+      <div class="legend-item">
+        <span class="color-chip" style="background:#f0fdf4; border:1px solid #86efac;"></span>
+        <span>사용 중</span>
+      </div>
+      <div class="legend-item">
+        <span class="color-chip" style="background:#ebf8ff; border:1px solid #90cdf4;"></span>
+        <span>사용 가능(미사용)</span>
+      </div>
+      <div class="legend-item">
+        <span class="color-chip" style="background:#fefce8; border:1px solid #fde047;"></span>
+        <span>복지 / 소모임</span>
+      </div>
+      <div class="legend-item">
+        <span class="color-chip" style="background:#fef2f2; border:1px solid #fca5a5;"></span>
+        <span>사용 불가</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="locker-container">
+    <div class="loading-text">사물함 배치 데이터를 실시간으로 동기화 중입니다...</div>
+  </div>
+
+  <script>
+    // 💡 앞서 발급받은 Apps Script 웹 앱 URL을 아래에 넣어주세요.
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNT0rHeY3AKrPGruQyG45vGTV7g2Qvxv_aebIqxzlY-AFzbvx8EqV6_fpIDldNu-sULw/exec";
+
+    async function fetchLockerStatus() {
+      try {
+        const response = await fetch(SCRIPT_URL);
+        const data = await response.json();
+
+        // 묶음 구역(section)별 그룹핑
+        const groups = {};
+        data.forEach(item => {
+          const sec = item.section ? item.section.trim() : '기타 구역';
+          if (!groups[sec]) groups[sec] = [];
+          groups[sec].push(item);
+        });
+
+        const container = document.getElementById('locker-container');
+        container.innerHTML = '';
+
+        for (const [sectionName, lockers] of Object.entries(groups)) {
+          const sectionDiv = document.createElement('div');
+          const isBlue = sectionName.includes('블루');
+          const isPink = sectionName.includes('핑크');
+
+          sectionDiv.className = `section-card ${isBlue ? 'section-blue' : (isPink ? 'section-pink' : '')}`;
+          sectionDiv.innerHTML = `
+            <div class="section-title">${sectionName}</div>
+            <div class="locker-grid"></div>
+          `;
+
+          const grid = sectionDiv.querySelector('.locker-grid');
+
+          lockers.forEach(item => {
+            const status = String(item.status || '').trim();
+            const owner = String(item.owner || '').trim();
+            const notes = String(item.notes || '').trim();
+
+            let colorClass = 'status-empty';
+            let displayText = '사용 가능';
+
+            // 1. 빨간색: 사용 불가
+            if (status.includes('불가') || status.includes('고장') || notes.includes('불가')) {
+              colorClass = 'status-disabled';
+              displayText = '사용 불가';
+            }
+            // 2. 노란색: 복지사업 및 동아리(소모임)
+            else if (status.includes('복지') || status.includes('동아리') || notes.includes('복지') || notes.includes('동아리') || ['케미', '엔트로피', '돌턴', 'E-QUAL', '파피루스', '계산기', '실험복', '우산', '충전기', '복지사업'].includes(owner)) {
+              colorClass = 'status-welfare';
+              displayText = owner || notes || '복지/동아리';
+            }
+            // 3. 초록색: 일반 학생 사용 중
+            else if (status === '사용중' || owner !== '') {
+              colorClass = 'status-occupied';
+              displayText = owner;
+            }
+            // 4. 파란색: 미사용(빈자리)
+            else {
+              colorClass = 'status-empty';
+              displayText = '사용 가능';
+            }
+
+            const box = document.createElement('div');
+            box.className = `locker-box ${colorClass}`;
+            box.innerHTML = `
+              <div class="num">${item.number}</div>
+              <div class="label" title="${displayText}">${displayText}</div>
+            `;
+            grid.appendChild(box);
+          });
+
+          container.appendChild(sectionDiv);
+        }
+      } catch (error) {
+        console.error("데이터 로드 실패:", error);
+        document.getElementById('locker-container').innerHTML = 
+          '<div class="loading-text" style="color:#ef4444;">데이터를 불러오는 데 실패했습니다. Apps Script 배포 설정 및 웹 앱 URL을 확인해 주세요.</div>';
+      }
+    }
+
+    fetchLockerStatus();
+  </script>
+</body>
+</html>
