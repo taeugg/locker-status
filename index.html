@@ -9,13 +9,13 @@
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: #f8fafc;
       margin: 0;
-      padding: 24px;
+      padding: 24px 16px;
       color: #1e293b;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     h1 {
@@ -24,17 +24,122 @@
       font-weight: 700;
     }
 
-    /* 상단 색상 범례 안내 */
+    /* 탭 네비게이션 */
+    .tab-container {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .tab-btn {
+      padding: 10px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      border: 1px solid #cbd5e1;
+      background-color: #ffffff;
+      color: #64748b;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background-color: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.25);
+    }
+
+    .tab-content {
+      display: none;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* =========================================
+       첫 번째 탭: 잔여 사물함 요약 카드 디자인
+       ========================================= */
+    .summary-group {
+      margin-bottom: 36px;
+      text-align: center;
+    }
+
+    .summary-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: -0.5px;
+    }
+
+    .summary-title-blue { color: #1e40af; }
+    .summary-title-pink { color: #9d174d; }
+
+    .summary-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .summary-card {
+      width: 100px;
+      height: 120px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+      font-weight: 700;
+    }
+
+    .summary-card-blue {
+      background-color: #93c5fd;
+      color: #0f172a;
+    }
+
+    .summary-card-pink {
+      background-color: #fbcfe8;
+      color: #0f172a;
+    }
+
+    .summary-range {
+      font-size: 16px;
+      letter-spacing: -0.5px;
+      padding-bottom: 6px;
+    }
+
+    .summary-divider {
+      width: 65%;
+      height: 2px;
+      background-color: #1e293b;
+      margin-bottom: 6px;
+    }
+
+    .summary-count {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    /* =========================================
+       두 번째 탭: 기존 사물함 배치도 디자인
+       ========================================= */
     .legend-container {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 12px;
       background: white;
-      padding: 12px 20px;
+      padding: 10px 18px;
       border-radius: 30px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      display: inline-flex;
+      margin: 0 auto 24px auto;
+      width: fit-content;
     }
 
     .legend-item {
@@ -46,15 +151,9 @@
     }
 
     .color-chip {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       border-radius: 4px;
-    }
-
-    /* 구역 묶음 레이아웃 */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
     }
 
     .section-card {
@@ -77,7 +176,6 @@
     .section-blue .section-title { border-color: #3b82f6; color: #1d4ed8; }
     .section-pink .section-title { border-color: #ec4899; color: #be185d; }
 
-    /* 사물함 그리드 */
     .locker-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
@@ -97,53 +195,15 @@
       transition: transform 0.1s ease;
     }
 
-    .locker-box:hover {
-      transform: translateY(-2px);
-    }
+    .locker-box:hover { transform: translateY(-2px); }
+    .num { font-size: 15px; font-weight: 700; line-height: 1.2; }
+    .label { font-size: 12px; margin-top: 4px; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    .num {
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .label {
-      font-size: 12px;
-      margin-top: 4px;
-      line-height: 1.2;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* 지정 색상 테마 규격 */
-    /* 1. 사용 안 함 (파란색) */
-    .status-empty {
-      background-color: #ebf8ff;
-      border-color: #90cdf4;
-      color: #2b6cb0;
-    }
-
-    /* 2. 사용 중 (초록색) */
-    .status-occupied {
-      background-color: #f0fdf4;
-      border-color: #86efac;
-      color: #15803d;
-    }
-
-    /* 3. 복지 / 동아리 (노란색) */
-    .status-welfare {
-      background-color: #fefce8;
-      border-color: #fde047;
-      color: #854d0e;
-    }
-
-    /* 4. 사용 불가 (빨간색) */
-    .status-disabled {
-      background-color: #fef2f2;
-      border-color: #fca5a5;
-      color: #b91c1c;
-    }
+    /* 사물함 상태별 색상 */
+    .status-empty { background-color: #ebf8ff; border-color: #90cdf4; color: #2b6cb0; }
+    .status-occupied { background-color: #f0fdf4; border-color: #86efac; color: #15803d; }
+    .status-welfare { background-color: #fefce8; border-color: #fde047; color: #854d0e; }
+    .status-disabled { background-color: #fef2f2; border-color: #fca5a5; color: #b91c1c; }
 
     .loading-text {
       text-align: center;
@@ -151,119 +211,167 @@
       padding: 40px;
       font-size: 15px;
     }
+
+    /* 모바일 최적화 반응형 */
     @media (max-width: 600px) {
-      body {
-        padding: 12px 8px;
-      }
+      body { padding: 12px 8px; }
+      h1 { font-size: 19px; margin-bottom: 12px; }
+      .tab-btn { padding: 8px 16px; font-size: 13.5px; }
 
-      h1 {
-        font-size: 19px;
-        margin-bottom: 12px;
-      }
+      /* 모바일 잔여 요약 카드 */
+      .summary-grid { gap: 8px; }
+      .summary-card { width: 78px; height: 95px; border-radius: 10px; }
+      .summary-range { font-size: 13.5px; padding-bottom: 4px; }
+      .summary-divider { width: 70%; margin-bottom: 4px; }
+      .summary-count { font-size: 15px; }
 
-      /* 상단 범례 2열 정렬 */
+      /* 모바일 범례 2단 배치 */
       .legend-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 8px 12px;
         padding: 10px 14px;
-        border-radius: 12px;
-        width: fit-content;
-        margin: 0 auto;
       }
+      .legend-item { font-size: 11px; }
 
-      .legend-item {
-        font-size: 11px;
-      }
-
-      .color-chip {
-        width: 12px;
-        height: 12px;
-      }
-
-      /* 구역 카드 여백 축소 */
-      .section-card {
-        padding: 12px 10px;
-        margin-bottom: 16px;
-        border-radius: 10px;
-      }
-
-      .section-title {
-        font-size: 15px;
-        padding-bottom: 8px;
-        margin-bottom: 10px;
-      }
-
-      /* 사물함 그리드 압축 (스마트폰 한 줄당 3~4개 균등 배치) */
-      .locker-grid {
-        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-        gap: 6px;
-      }
-
-      /* 사물함 박스 컴팩트화 */
-      .locker-box {
-        min-height: 48px;
-        padding: 4px 2px;
-        border-radius: 6px;
-      }
-
-      .num {
-        font-size: 13px;
-      }
-
-      .label {
-        font-size: 10.5px;
-        margin-top: 2px;
-      }
+      /* 모바일 사물함 박스 컴팩트화 */
+      .section-card { padding: 12px 10px; margin-bottom: 16px; }
+      .section-title { font-size: 15px; margin-bottom: 10px; }
+      .locker-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 6px; }
+      .locker-box { min-height: 48px; padding: 4px 2px; }
+      .num { font-size: 13px; }
+      .label { font-size: 10.5px; }
     }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <h1>사물함 사용 현황</h1>
+    <h1>학과 사물함 현황</h1>
     
-    <div class="legend-container">
-      <div class="legend-item">
-        <span class="color-chip" style="background:#f0fdf4; border:1px solid #86efac;"></span>
-        <span>사용 중</span>
+    <!-- 상단 탭 전환 버튼 -->
+    <div class="tab-container">
+      <button class="tab-btn active" onclick="switchTab('tab-summary')">📊 잔여 현황 요약</button>
+      <button class="tab-btn" onclick="switchTab('tab-layout')">🗺️ 전체 사물함 배치도</button>
+    </div>
+  </div>
+
+  <!-- [첫 번째 장] 잔여 현황 요약 페이지 -->
+  <div id="tab-summary" class="tab-content active">
+    <div class="summary-group">
+      <div class="summary-title summary-title-blue">- 블루(잔여) -</div>
+      <div class="summary-grid" id="summary-blue-grid">
+        <div class="loading-text">계산 중...</div>
       </div>
-      <div class="legend-item">
-        <span class="color-chip" style="background:#ebf8ff; border:1px solid #90cdf4;"></span>
-        <span>사용 가능(미사용)</span>
-      </div>
-      <div class="legend-item">
-        <span class="color-chip" style="background:#fefce8; border:1px solid #fde047;"></span>
-        <span>복지 / 동아리</span>
-      </div>
-      <div class="legend-item">
-        <span class="color-chip" style="background:#fef2f2; border:1px solid #fca5a5;"></span>
-        <span>사용 불가</span>
+    </div>
+
+    <div class="summary-group">
+      <div class="summary-title summary-title-pink">- 핑크(잔여) -</div>
+      <div class="summary-grid" id="summary-pink-grid">
+        <div class="loading-text">계산 중...</div>
       </div>
     </div>
   </div>
 
-  <div class="container" id="locker-container">
-    <div class="loading-text">사물함 배치 데이터를 실시간으로 동기화 중입니다...</div>
+  <!-- [두 번째 장] 기존 상세 배치도 페이지 -->
+  <div id="tab-layout" class="tab-content">
+    <div class="legend-container">
+      <div class="legend-item"><span class="color-chip" style="background:#f0fdf4; border:1px solid #86efac;"></span> 사용 중</div>
+      <div class="legend-item"><span class="color-chip" style="background:#ebf8ff; border:1px solid #90cdf4;"></span> 사용 가능</div>
+      <div class="legend-item"><span class="color-chip" style="background:#fefce8; border:1px solid #fde047;"></span> 복지/동아리</div>
+      <div class="legend-item"><span class="color-chip" style="background:#fef2f2; border:1px solid #fca5a5;"></span> 사용 불가</div>
+    </div>
+
+    <div id="locker-container">
+      <div class="loading-text">사물함 배치 데이터를 실시간으로 동기화 중입니다...</div>
+    </div>
   </div>
 
   <script>
-    // 💡 앞서 발급받은 Apps Script 웹 앱 URL을 아래에 넣어주세요.
+    // 💡 본인의 Apps Script 웹 앱 URL을 입력하세요
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNT0rHeY3AKrPGruQyG45vGTV7g2Qvxv_aebIqxzlY-AFzbvx8EqV6_fpIDldNu-sULw/exec";
+
+    // 탭 전환 기능
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      if (tabId === 'tab-summary') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+      }
+      document.getElementById(tabId).classList.add('active');
+    }
 
     async function fetchLockerStatus() {
       try {
         const response = await fetch(SCRIPT_URL);
         const data = await response.json();
 
-        // 묶음 구역(section)별 그룹핑
+        // 1. 구역별 그룹핑 및 잔여석 계산
         const groups = {};
+        const summaryStats = {};
+
         data.forEach(item => {
-          const sec = item.section ? item.section.trim() : '기타 구역';
-          if (!groups[sec]) groups[sec] = [];
+          let sec = item.section ? item.section.trim() : '기타';
+          
+          // 첨부해주신 사진처럼 블루 73~90, 91~96이 '73~96'으로 합쳐진 경우 대응
+          if (sec === '블루 73~90' || sec === '블루 91~96') {
+            sec = '블루 73~96';
+          }
+
+          if (!groups[sec]) {
+            groups[sec] = [];
+            summaryStats[sec] = { available: 0, color: sec.includes('블루') ? 'blue' : 'pink' };
+          }
           groups[sec].push(item);
+
+          // 상태 체크: '사용 가능' 여부 판단
+          const status = String(item.status || '').trim();
+          const owner = String(item.owner || '').trim();
+          const notes = String(item.notes || '').trim();
+
+          const isDisabled = status.includes('불가') || status.includes('고장') || notes.includes('불가');
+          const isWelfare = status.includes('복지') || status.includes('동아리') || notes.includes('복지') || notes.includes('동아리') || ['케미', '엔트로피', '돌턴', 'E-QUAL', '파피루스', '계산기', '실험복', '우산', '충전기', '복지사업'].includes(owner);
+          const isOccupied = status === '사용중' || owner !== '';
+
+          // 오직 아무도 쓰지 않는 빈자리일 때만 잔여석으로 카운트
+          if (!isDisabled && !isWelfare && !isOccupied) {
+            summaryStats[sec].available++;
+          }
         });
 
+        // =========================================
+        // [첫 번째 장 렌더링] 잔여석 카드 렌더링
+        // =========================================
+        const blueGrid = document.getElementById('summary-blue-grid');
+        const pinkGrid = document.getElementById('summary-pink-grid');
+        blueGrid.innerHTML = '';
+        pinkGrid.innerHTML = '';
+
+        for (const [secName, stat] of Object.entries(summaryStats)) {
+          // '블루 1~30' -> '1~30' 숫자 범위만 추출
+          const rangeText = secName.replace('블루', '').replace('핑크', '').trim();
+          
+          const card = document.createElement('div');
+          card.className = `summary-card ${stat.color === 'blue' ? 'summary-card-blue' : 'summary-card-pink'}`;
+          card.innerHTML = `
+            <div class="summary-range">${rangeText}</div>
+            <div class="summary-divider"></div>
+            <div class="summary-count">${stat.available}개</div>
+          `;
+
+          if (stat.color === 'blue') {
+            blueGrid.appendChild(card);
+          } else {
+            pinkGrid.appendChild(card);
+          }
+        }
+
+        // =========================================
+        // [두 번째 장 렌더링] 전체 사물함 상세 그리드
+        // =========================================
         const container = document.getElementById('locker-container');
         container.innerHTML = '';
 
@@ -288,23 +396,16 @@
             let colorClass = 'status-empty';
             let displayText = '사용 가능';
 
-            // 1. 빨간색: 사용 불가
             if (status.includes('불가') || status.includes('고장') || notes.includes('불가')) {
               colorClass = 'status-disabled';
               displayText = '사용 불가';
-            }
-            // 2. 노란색: 복지사업 및 동아리(소모임)
-            else if (status.includes('복지') || status.includes('동아리') || notes.includes('복지') || notes.includes('동아리') || ['케미', '엔트로피', '돌턴', 'E-QUAL', '파피루스', '계산기', '실험복', '우산', '충전기', '복지사업'].includes(owner)) {
+            } else if (status.includes('복지') || status.includes('동아리') || notes.includes('복지') || notes.includes('동아리') || ['케미', '엔트로피', '돌턴', 'E-QUAL', '파피루스', '계산기', '실험복', '우산', '충전기', '복지사업'].includes(owner)) {
               colorClass = 'status-welfare';
               displayText = owner || notes || '복지/동아리';
-            }
-            // 3. 초록색: 일반 학생 사용 중
-            else if (status === '사용중' || owner !== '') {
+            } else if (status === '사용중' || owner !== '') {
               colorClass = 'status-occupied';
               displayText = owner;
-            }
-            // 4. 파란색: 미사용(빈자리)
-            else {
+            } else {
               colorClass = 'status-empty';
               displayText = '사용 가능';
             }
@@ -320,10 +421,11 @@
 
           container.appendChild(sectionDiv);
         }
+
       } catch (error) {
         console.error("데이터 로드 실패:", error);
-        document.getElementById('locker-container').innerHTML = 
-          '<div class="loading-text" style="color:#ef4444;">데이터를 불러오는 데 실패했습니다. Apps Script 배포 설정 및 웹 앱 URL을 확인해 주세요.</div>';
+        document.getElementById('summary-blue-grid').innerHTML = '<span style="color:red;">로드 실패</span>';
+        document.getElementById('locker-container').innerHTML = '<div class="loading-text" style="color:#ef4444;">스프레드시트 데이터를 불러오지 못했습니다. URL과 배포 권한을 확인해 주세요.</div>';
       }
     }
 
